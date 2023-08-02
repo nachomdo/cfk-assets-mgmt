@@ -1,0 +1,7 @@
+packages:
+  - kafkacat 
+runcmd:
+  - curl -L https://nixos.org/nix/install > /tmp/nix-install.sh  
+  - chmod +x /tmp/nix-install.sh && /tmp/nix-install.sh --daemon --yes
+  - mkdir -p /home/ubuntu/ansible/ansible_collections/confluent/
+  - git clone https://github.com/confluentinc/cp-ansible /home/ubuntu/ansible/ansible_collections/confluent/platform
