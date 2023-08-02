@@ -1,0 +1,22 @@
+apiVersion: platform.confluent.io/v1beta1
+kind: Schema
+metadata:
+  name: customer-schema-demo
+  namespace: confluent
+spec:
+  data:
+    configRef: customer-schema-config
+    format: protobuf
+  name: customer-schema-demo
+  schemaReferences:
+    - subject: address-schema
+      format: protobuf
+      version: 2
+      protobuf:
+        file: "com/example/address.proto"
+  schemaRegistryRest:
+    endpoint: http://schemaregistry.confluent.svc.cluster.local:8081
+    authentication:
+      type: basic
+      basic:
+        secretRef: gke-creds

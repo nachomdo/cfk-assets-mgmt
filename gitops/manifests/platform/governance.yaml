@@ -1,0 +1,58 @@
+apiVersion: templates.gatekeeper.sh/v1
+kind: ConstraintTemplate
+metadata:
+  name: kafkachecktopicname
+  annotations:
+    description: >-
+      Kafka topics name should follow the documented best practices for multi-tenancy clusters.
+spec:
+  crd:
+    spec:
+      names:
+        kind: KafkaCheckTopicName
+  targets:
+    - target: admission.k8s.gatekeeper.sh
+      rego: |
+        package kafkaCheckTopicName
+
+        violation[{"msg": msg}] {
+          input.review.kind.kind == "KafkaTopic"
+
+          name := input.review.object.spec.name
+          not regex.match("^((npa|pfa|push)\\.\\w+\\.\\d+)$", name)
+
+          msg := "Every KafkaTopic name is not following expected format"
+        }
+---
+apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: KafkaCheckTopicName
+metadata:
+  name: all-topics-must-follow-naming-rules
+  namespace: confluent
+spec:
+  match:
+    kinds:
+      - apiGroups: ["platform.confluent.io"]
+        kinds: ["KafkaTopic"]
+---
+apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: K8sRequiredAnnotations
+metadata:
+  name: all-topics-must-have-certain-set-of-annotations
+  namespace: confluent
+spec:
+  match:
+    kinds:
+      - apiGroups: ["platform.confluent.io"]
+        kinds: ["KafkaTopic"]
+  parameters:
+    message: "All Kafka Topics must have a `kafka.topic.io/owner`, `kafka.topic.io/domain`, `kafka.topic.io/sla` and `kafka.topic.io/quality` annotations."
+    annotations:
+      - key: kafka.topic.io/owner
+        allowedRegex: ^([A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}|[a-z]{1,39})$
+      - key: kafka.topic.io/domain
+        allowedRegex: ^(.+)$
+      - key: kafka.topic.io/sla
+        allowedRegex: ^tier[1-3]$
+      - key: kafka.topic.io/quality
+        allowedRegex: ^(raw|curated|authoritative)$

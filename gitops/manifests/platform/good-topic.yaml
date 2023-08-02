@@ -1,0 +1,13 @@
+apiVersion: platform.confluent.io/v1beta1
+kind: KafkaTopic
+metadata:
+  name: topic-with-governance
+  namespace: confluent
+spec:
+  name: my-topic
+  replicas: 3
+  partitionCount: 10
+  configs:
+    cleanup.policy: "delete"
+  kafkaRestClassRef:
+    name: gke-cluster

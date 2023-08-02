@@ -1,0 +1,10 @@
+kind: Kustomization
+
+resources:
+  - topics.yaml
+
+commonAnnotations:
+  kafka.topic.io/domain: payments
+  kafka.topic.io/owner: payments-team@xyzdemo.io
+  kafka.topic.io/quality: raw
+  kafka.topic.io/sla: tier1
