@@ -102,6 +102,20 @@ metadata:
   namespace: confluent
 spec:
   replicas: 1
+  build:
+    type: onDemand
+    onDemand:
+      plugins:
+        confluentHub:
+          - name:  kafka-connect-s3
+            owner: confluentinc
+            version: 10.5.6
+          - name:  kafka-connect-replicator
+            owner: confluentinc
+            version: 7.5.0
+          - name: kafka-connect-datagen
+            owner: confluentinc
+            version: 0.6.2
   image:
     application: confluentinc/cp-server-connect:7.4.0
     init: confluentinc/confluent-init-container:2.6.0
@@ -114,7 +128,7 @@ spec:
     resources:
       requests:
         cpu: 100m
-        memory: 256Mi
+        memory: 4096Mi
     probe:
       liveness:
         periodSeconds: 10
