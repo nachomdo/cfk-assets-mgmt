@@ -163,7 +163,7 @@ spec:
     resources:
       requests:
         cpu: 500m
-        memory: 512Mi
+        memory: 4096Mi
     probe:
       liveness:
         periodSeconds: 10
