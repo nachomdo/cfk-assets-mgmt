@@ -116,6 +116,12 @@ spec:
           - name: kafka-connect-datagen
             owner: confluentinc
             version: 0.6.2
+          - name: kafka-connect-spooldir
+            owner: jcustenborder
+            version: 2.0.65
+          - name: connect-transforms
+            owner: confluentinc
+            version: 1.4.4
   image:
     application: confluentinc/cp-server-connect:7.4.0
     init: confluentinc/confluent-init-container:2.6.0
