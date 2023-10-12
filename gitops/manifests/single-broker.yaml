@@ -85,6 +85,9 @@ spec:
       secretRef: gke-basic-creds
       roles:
         - Administrators
+  configOverrides:
+    server:
+      - kafkastore.topic.skip.validation=true
   podTemplate:
     resources:
       requests:
