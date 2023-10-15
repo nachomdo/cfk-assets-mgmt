@@ -167,7 +167,7 @@ spec:
       - confluent.metrics.topic.replication=3
       - confluent.monitoring.interceptor.topic.replication=3
       - confluent.controlcenter.internal.topics.replication=3
-      - confluent.controlcenter.id=5
+      - confluent.controlcenter.id=6
   podTemplate:
     resources:
       requests:
